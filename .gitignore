@@ -1,0 +1,31 @@
+# Credentials - never commit these
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+.aws/
+.ssh/
+*.tfstate
+*.tfvars
+secrets/
+credentials/
+service-account*.json
+*-credentials.json
+
+# Node
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
