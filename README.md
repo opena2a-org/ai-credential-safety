@@ -2,19 +2,9 @@
 
 A practical guide to protecting API keys, tokens, and credentials from exposure through AI agents, coding assistants, and automated tools.
 
-AI agents routinely interact with files, environment variables, and configuration that may contain secrets. Without proper isolation, credentials can leak through prompt context, tool outputs, commit history, or agent memory.
-
-## The Problem
-
-AI coding assistants and autonomous agents can expose credentials in several ways:
-
-1. **Reading .env files** -- agents read environment files to understand project configuration and inadvertently include secrets in their context window
-2. **Committing secrets** -- agents stage and commit files containing credentials
-3. **Logging credentials** -- tool outputs containing secrets are stored in conversation history
-4. **Prompt injection exfiltration** -- malicious content in repositories or web pages tricks agents into sending credentials to attacker-controlled endpoints
-5. **Memory persistence** -- some agents persist conversation context that may contain secrets
-
 ## Quick Start
+
+Work through the [credential safety checklist](docs/checklist.md), then set up Secretless AI:
 
 ```bash
 # Install Secretless AI for credential isolation
@@ -27,43 +17,17 @@ npx secretless-ai init
 npx secretless-ai verify
 ```
 
-## Credential Safety Checklist
+## The Problem
 
-### Environment Variables
+AI agents routinely interact with files, environment variables, and configuration that may contain secrets. Without proper isolation, credentials can leak through prompt context, tool outputs, commit history, or agent memory.
 
-- [ ] `.env` files listed in `.gitignore`
-- [ ] `.env.example` provided with placeholder values (no real credentials)
-- [ ] AI tool configuration blocks `.env` file reads
-- [ ] Environment variables injected at runtime, not build time
-- [ ] No credentials in `docker-compose.yml` or `Dockerfile`
+AI coding assistants and autonomous agents can expose credentials in several ways:
 
-### API Key Management
-
-- [ ] API keys rotated on a regular schedule
-- [ ] Each environment (dev/staging/prod) uses separate keys
-- [ ] Key scopes restricted to minimum required permissions
-- [ ] Unused keys revoked promptly
-- [ ] Key usage monitored for anomalies
-
-For detailed guides on managing specific API keys:
-- [OpenAI API Key Management](https://agentpwn.com/tools/openai-api-key-management) -- rotation, scoping, and monitoring
-- [AI Agent Environment File Security](https://agentpwn.com/tools/ai-agent-env-file-security) -- protecting .env files from agent access
-
-### Git Safety
-
-- [ ] Pre-commit hooks scan for secrets (e.g., `detect-secrets`, `gitleaks`)
-- [ ] Git history scanned for previously committed credentials
-- [ ] `.gitignore` covers all credential file patterns
-- [ ] CI/CD pipeline includes secret scanning step
-- [ ] Branch protection prevents force-push that could rewrite secret removal
-
-### AI Agent Configuration
-
-- [ ] Agent cannot read credential files directly
-- [ ] Credentials passed via environment variables, not file reads
-- [ ] Agent conversation history does not persist secrets
-- [ ] Tool outputs filtered for credential patterns
-- [ ] Agent sandboxed from credential storage locations
+1. **Reading .env files** -- agents read environment files to understand project configuration and inadvertently include secrets in their context window
+2. **Committing secrets** -- agents stage and commit files containing credentials
+3. **Logging credentials** -- tool outputs containing secrets are stored in conversation history
+4. **Prompt injection exfiltration** -- malicious content in repositories or web pages tricks agents into sending credentials to attacker-controlled endpoints
+5. **Memory persistence** -- some agents persist conversation context that may contain secrets
 
 ## .env.example Templates
 
@@ -255,8 +219,9 @@ npx hackmyagent scan --checks credentials,env-files,git-secrets
 
 Learn more about AI agent security fundamentals at [agentpwn.com/learn](https://agentpwn.com/learn).
 
-## Related Projects
+## Documentation
 
+- [Credential safety checklist](docs/checklist.md) -- environment variables, API key management, Git safety, and AI agent configuration
 - [Secretless AI](https://github.com/opena2a-org/secretless-ai) -- credential isolation for AI development
 - [HackMyAgent](https://github.com/opena2a-org/hackmyagent) -- automated agent security scanner
 - [MCP Security Checklist](https://github.com/opena2a-org/mcp-security-checklist) -- MCP deployment security
